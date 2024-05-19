@@ -1,13 +1,16 @@
 import whisper
 import numpy as np
+from spacy.cli import download
+download("en_core_web_sm")
 import text_hammer as th
-
+import torch
 
 class ASRManager:
 
     def __init__(self):
         # initialize the model here
-        self.model = whisper.load_model('large')
+        print("CUDA: " + str(torch.cuda.is_available()))
+        self.model = whisper.load_model('small')
 
     def pre_process(self, audio):
         return audio

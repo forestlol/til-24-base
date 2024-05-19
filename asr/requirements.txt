@@ -1,6 +1,6 @@
 transformers==4.31.0
 librosa==0.10.1
-fastapi
+fastapi==0.110
 accelerate
 uvicorn[standard]
 pandas==2.0.3
