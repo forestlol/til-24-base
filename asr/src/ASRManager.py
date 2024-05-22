@@ -5,6 +5,9 @@ download("en_core_web_sm")
 import text_hammer as th
 import torch
 
+# noise reduction
+from noisereduce.torchgate import TorchGate as TG
+
 class ASRManager:
 
     def __init__(self):
@@ -13,6 +16,10 @@ class ASRManager:
         self.model = whisper.load_model('small')
 
     def pre_process(self, audio):
+        # reduce noise
+        device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        tg = TG(sr=16000, nonstationary=True).to(device)
+        audio = tg(audio) # apply spectral gate
         return audio
 
     def post_process(self, pred):
@@ -55,6 +62,7 @@ if __name__ == "__main__":
     a = ASRManager()
     with wave.open('D:/Github/til-24-base/advance/audio/audio_0.wav', 'rb') as wav_file:
         channels_number, sample_width, framerate, frames_number, compression_type, compression_name = wav_file.getparams()
-        frames = wav_file.readframes(frames_number)
+        processed_audio = a.pre_process(wav_file)
+        frames = processed_audio.readframes(frames_number)
         print(a.transcribe(frames))
         print()
