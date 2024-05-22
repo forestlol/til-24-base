@@ -4,6 +4,6 @@ fastapi==0.110
 accelerate
 uvicorn[standard]
 pandas==2.0.3
-text-hammer==0.1.5
 numpy
-openai-whisper @ git+https://github.com/openai/whisper.git@ba3f3cd54b0e5b8ce1ab3de13e32122d0d5f98ab
+whisperx @ git+https://github.com/m-bain/whisperx.git
+torch==2.2.0+cu121
